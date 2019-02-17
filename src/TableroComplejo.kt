@@ -2,12 +2,13 @@ import es.uam.eps.multij.ExcepcionJuego
 import es.uam.eps.multij.Movimiento
 import es.uam.eps.multij.Tablero
 import java.util.*
+import java.io.*
 import kotlin.collections.ArrayList
 
-class TableroComplejo(var rows : Int = 6, var cols: Int = 7): Tablero() {
+class TableroComplejo(var rows : Int = 6, var cols: Int = 7): Tablero()  {
 
     var tablero = mutableListOf<Stack<Int>>()
-    var tableroGuardado : String = ""
+//    var tableroGuardado : String = ""
 //    var cont = 0
 
     init {
@@ -17,7 +18,8 @@ class TableroComplejo(var rows : Int = 6, var cols: Int = 7): Tablero() {
 
         }
 
-        this.estado = EN_CURSO
+        estado = EN_CURSO
+
     }
 
     override fun toString(): String {
@@ -49,10 +51,6 @@ class TableroComplejo(var rows : Int = 6, var cols: Int = 7): Tablero() {
         }
 
         return movs
-    }
-
-    override fun stringToTablero(cadena: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun mueve(m: Movimiento?) {
@@ -106,29 +104,74 @@ class TableroComplejo(var rows : Int = 6, var cols: Int = 7): Tablero() {
                         else nfichas = 0; jugador = tablero[j][i]
                     }
 
-                    if (nfichas == 4) {
-                        return true
-                    }
-                } else { nfichas = 0 }
+                    if (nfichas == 4) return true
+
+                } else  nfichas = 0
             }
         }
+
         return false
     }
 
     override fun esValido(m: Movimiento?): Boolean {
         return tablero[m.toString().toInt()].size < rows
-
-//        val posicion = m.toString().toInt()
-//        return tablero[posicion].contains(0)
-
-//        if(tablero[posicion].contains(0) == true)
-//            return true
-//        else
-//            return false
     }
 
     override fun tableroToString(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        try{
+            val file = File("tablero.dat")
+            var cadena : String = ""
+            var row : String = ""
+
+            cadena = "$cols,$rows,$turno,$estado,$numJugadas,$numJugadores,$ultimoMovimiento"
+
+            for (i in 0 until cols) {
+                for (j in 0 until tablero[i].size) {
+                    if(j == 0) row = "${tablero[i][j]}"
+                    else row = "$row,${tablero[i][j]}"
+                }
+
+                cadena = "$cadena\n$row"
+                row = ""
+            }
+
+            file.writeText(cadena)
+
+            return cadena
+
+        } catch (e: FileNotFoundException) {
+            println("Fichero no encontrado. Prueba otra vez")
+        }
+
+        return ""
+    }
+
+    override fun stringToTablero(cadena: String?) {
+        try{
+            val file = File("tablero.dat").readLines()
+            var linea = file[0]
+            var trozos = linea.split(",")
+            this.cols = trozos.get(0).toInt()
+            this.rows = trozos.get(1).toInt()
+            this.turno = trozos.get(2).toInt()
+            this.estado = trozos.get(3).toInt()
+            this.numJugadas = trozos.get(4).toInt()
+            this.numJugadores = trozos.get(5).toInt()
+            this.ultimoMovimiento = MovimientoComplejo(trozos.get(6).toInt())
+
+            tablero = mutableListOf<Stack<Int>>()
+            for (i in 0 until this.cols) {
+                tablero.add(Stack())
+            }
+
+            for (i in 0 until file.size -1){
+                trozos = file[i+1].split(",")
+                for (ficha in trozos) tablero[i].push(ficha.toInt())
+            }
+
+        } catch (e: FileNotFoundException) {
+            println("Fichero no encontrado. Prueba otra vez")
+        }
     }
 
 }
