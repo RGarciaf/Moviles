@@ -16,10 +16,8 @@ fun main(args: Array<String>) {
     val partida = Partida(tablero, listaJugadores)
     partida.addObservador(observer)
     partida.continuar()
+//    Descomentar la siguiente linea para guardar la partida y cambiar
+//    partida.continuar() por partida.comenzar()
 //    tablero.tableroToString()
 
-
-//    var file = File("tablero.dat").readLines()
-//    var trozo = file[1].split(",")
-//    for (t in trozo) println(t)
 }
