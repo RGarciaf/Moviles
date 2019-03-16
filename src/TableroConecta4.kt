@@ -114,9 +114,9 @@ class TableroConecta4(var rows : Int = 6, var cols: Int = 7): Tablero()  {
         return false
     }
 
-    override fun esValido(m: Movimiento?): Boolean {
-        return tablero[m.toString().toInt()].size < rows
-    }
+    override fun esValido(m: Movimiento?): Boolean =
+        if (m.toString().toInt() < 0 || m.toString().toInt() > cols) false
+        else tablero[m.toString().toInt()].size < rows
 
     override fun tableroToString(): String {
         try{
