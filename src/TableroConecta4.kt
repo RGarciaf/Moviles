@@ -5,7 +5,7 @@ import java.util.*
 import java.io.*
 import kotlin.collections.ArrayList
 
-class TableroComplejo(var rows : Int = 6, var cols: Int = 7): Tablero()  {
+class TableroConecta4(var rows : Int = 6, var cols: Int = 7): Tablero()  {
 
     var tablero = mutableListOf<Stack<Int>>()
 //    var tableroGuardado : String = ""
@@ -120,10 +120,9 @@ class TableroComplejo(var rows : Int = 6, var cols: Int = 7): Tablero()  {
     override fun tableroToString(): String {
         try{
             val file = File("tablero.dat")
-            var cadena : String = ""
             var row : String = ""
 
-            cadena = "$cols,$rows,$turno,$estado,$numJugadas,$numJugadores,$ultimoMovimiento"
+            var cadena = "$cols,$rows,$turno,$estado,$numJugadas,$numJugadores,$ultimoMovimiento"
 
             for (i in 0 until cols) {
                 for (j in 0 until tablero[i].size) {
@@ -157,7 +156,7 @@ class TableroComplejo(var rows : Int = 6, var cols: Int = 7): Tablero()  {
             this.estado = trozos.get(3).toInt()
             this.numJugadas = trozos.get(4).toInt()
             this.numJugadores = trozos.get(5).toInt()
-            this.ultimoMovimiento = MovimientoComplejo(trozos.get(6).toInt())
+            this.ultimoMovimiento = MovimientoConecta4(trozos.get(6).toInt())
 
             tablero = mutableListOf<Stack<Int>>()
             for (i in 0 until this.cols) {

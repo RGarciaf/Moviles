@@ -1,7 +1,7 @@
 import es.uam.eps.multij.Evento
 import es.uam.eps.multij.PartidaListener
 
-class ObservadorComplejo : PartidaListener {
+class ObservadorConecta4 : PartidaListener {
     override fun onCambioEnPartida(evento: Evento?) {
         when(evento?.tipo) {
             Evento.EVENTO_CAMBIO -> {
