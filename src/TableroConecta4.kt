@@ -45,8 +45,8 @@ class TableroConecta4(var rows : Int = 6, var cols: Int = 7): Tablero()  {
         val movs = arrayListOf<Movimiento>()
 
         for (i in 0 until cols) {
-            if(this.esValido(MovimientoSencillo(i))) {
-                movs.add(MovimientoSencillo((i)))
+            if(this.esValido(MovimientoConecta4(i))) {
+                movs.add(MovimientoConecta4((i)))
             }
         }
 
@@ -60,22 +60,23 @@ class TableroConecta4(var rows : Int = 6, var cols: Int = 7): Tablero()  {
             tablero[pos].push(turno + 1)
 
             ultimoMovimiento = m
-            cambiaTurno()
+
 
             if(terminado()) estado = FINALIZADA
             else if (movimientosValidos().isEmpty()) estado = TABLAS
+            else cambiaTurno()
 
         } else {
             throw ExcepcionJuego("Movimiento inválido")
         }
     }
 
-    fun terminado (): Boolean {
+    private fun terminado (): Boolean {
         return compruebaCols() || compruebaRows()
     }
 
-    fun compruebaCols(): Boolean {
-        var jugador = 1
+    private fun compruebaCols(): Boolean {
+        var jugador = this.turno +1
         var nfichas = 0
 
         for (col in tablero){
@@ -92,7 +93,7 @@ class TableroConecta4(var rows : Int = 6, var cols: Int = 7): Tablero()  {
         return false
     }
 
-    fun compruebaRows(): Boolean {
+    private fun compruebaRows(): Boolean {
         var jugador = 1
         var nfichas = 0
 
@@ -170,6 +171,8 @@ class TableroConecta4(var rows : Int = 6, var cols: Int = 7): Tablero()  {
 
         } catch (e: FileNotFoundException) {
             println("Fichero no encontrado. Prueba otra vez")
+        } catch (e: ExcepcionJuego){
+            println("El fichero no tiene el formato correcto")
         }
     }
 

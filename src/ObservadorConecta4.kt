@@ -7,9 +7,9 @@ class ObservadorConecta4 : PartidaListener {
             Evento.EVENTO_CAMBIO -> {
                 val turno = evento.partida.tablero.turno
                 val nombre = evento.partida.getJugador(turno).nombre
-                println(evento.descripcion)
-                println("El jugador $nombre ha movido")
-                println(evento.partida.tablero.toString())
+                println("Evento Cambio: ${evento.descripcion}")
+//                println("Observer: El jugador $nombre ha movido\n")
+                println("${evento.partida.tablero.toString()}\n")
                 //Guardar partida
             }
 
@@ -18,8 +18,14 @@ class ObservadorConecta4 : PartidaListener {
                 val nombre = evento.partida.getJugador(turno).nombre
                 println(evento.descripcion)
                 println(evento.partida.tablero.toString())
-                println("El jugador $nombre ha ganado")
-                //Guardar partida
+//                println("El jugador $nombre ha ganado")
+            }
+
+            Evento.EVENTO_TURNO -> {
+                val turno = evento.partida.tablero.turno
+                val nombre = evento.partida.getJugador(turno).nombre
+                println("Evento Turno: ${evento.descripcion}")
+//                println("Observer: El jugador $nombre ha movido\n")
             }
         } // IMPLEMENTAR TODOS LOS ESTADOS
     }
