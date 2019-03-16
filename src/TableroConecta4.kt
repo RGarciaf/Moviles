@@ -1,11 +1,13 @@
+import com.sun.org.apache.xpath.internal.operations.Bool
 import es.uam.eps.multij.ExcepcionJuego
 import es.uam.eps.multij.Movimiento
 import es.uam.eps.multij.Tablero
+import javafx.beans.binding.BooleanExpression
 import java.util.*
 import java.io.*
 import kotlin.collections.ArrayList
 
-class TableroConecta4(var rows : Int = 6, var cols: Int = 7): Tablero()  {
+class TableroConecta4(var rows : Int = 6, var cols: Int = 7, var conecta: Int = 4): Tablero()  {
 
     var tablero = mutableListOf<Stack<Int>>()
 //    var tableroGuardado : String = ""
@@ -72,7 +74,7 @@ class TableroConecta4(var rows : Int = 6, var cols: Int = 7): Tablero()  {
     }
 
     private fun terminado (): Boolean {
-        return compruebaCols() || compruebaRows()
+        return compruebaCols() || compruebaRows() || compruebaDiagonales()
     }
 
     private fun compruebaCols(): Boolean {
@@ -85,7 +87,7 @@ class TableroConecta4(var rows : Int = 6, var cols: Int = 7): Tablero()  {
                     if (ficha == jugador) nfichas ++
                     else nfichas = 0; jugador = ficha
 
-                    if (nfichas == 4){
+                    if (nfichas == conecta){
                         return true
                     }
             }
@@ -105,12 +107,39 @@ class TableroConecta4(var rows : Int = 6, var cols: Int = 7): Tablero()  {
                         else nfichas = 0; jugador = tablero[j][i]
                     }
 
-                    if (nfichas == 4) return true
+                    if (nfichas == conecta) return true
 
                 } else  nfichas = 0
             }
         }
 
+        return false
+    }
+
+    private fun compruebaDiagonales(): Boolean {
+        for (i in 0 until rows)
+            for (j in 0 until cols)
+                if(compruebaDiagonalesrec(j, i, 1))
+                    return true
+        return false
+    }
+
+    private fun compruebaDiagonalesrec(i: Int, j: Int, nfichas: Int): Boolean {
+        if(nfichas == conecta)
+            return true
+
+        try {
+            if (tablero[i][j] == tablero[i + 1][j + 1])
+                return compruebaDiagonalesrec(i + 1, j + 1, nfichas + 1)
+        }catch (e:IndexOutOfBoundsException){
+
+        }
+        try {
+            if (tablero[i][j] == tablero[i-1][j+1])
+                return compruebaDiagonalesrec(i-1, j+1, nfichas+1)
+        }catch (e:IndexOutOfBoundsException){
+            return false
+        }
         return false
     }
 

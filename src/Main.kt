@@ -8,10 +8,10 @@ fun main(args: Array<String>) {
     var listaJugadores : ArrayList<Jugador> = arrayListOf<Jugador>()
     listaJugadores.add(JugadorHumano("Humano 1"))
     listaJugadores.add(JugadorHumano("Humano 2"))
-//    tablero.stringToTablero(null)
+    tablero.stringToTablero(null)
     val partida = Partida(tablero, listaJugadores)
     partida.addObservador(observer)
-    partida.comenzar()
+    partida.continuar()
 //    Descomentar la siguiente linea para guardar la partida y cambiar
 //    partida.continuar() por partida.comenzar()
 //    tablero.tableroToString()

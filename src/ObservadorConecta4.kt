@@ -10,7 +10,7 @@ class ObservadorConecta4 : PartidaListener {
                 println("Evento Cambio: ${evento.descripcion}")
 //                println("Observer: El jugador $nombre ha movido\n")
                 println("${evento.partida.tablero.toString()}\n")
-                //Guardar partida
+//                evento.partida.tablero.tableroToString()
             }
 
             Evento.EVENTO_FIN -> {
